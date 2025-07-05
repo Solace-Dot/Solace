@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Solaced</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6; /* A light, calming gray */
+        }
+        .nav-active {
+            color: #3B82F6; /* A calming blue for active links */
+            font-weight: 600;
+        }
+        .section-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px); /* Full viewport height minus navbar */
+            text-align: center;
+        }
+        .display-text-solaced {
+            font-size: 5rem;
+            font-weight: 700;
+            color: #1F2937; /* A deep, serious gray */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="bg-white/80 backdrop-blur-md shadow-sm fixed top-0 left-0 right-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <a href="{% url 'HomePage' %}" class="text-2xl font-bold text-gray-800">Solaced</a>
+                </div>
+                <div id="desktop-nav" class="hidden md:flex items-center space-x-6">
+                    <a href="{% url 'HomePage' %}" class="nav-link text-gray-600 hover:text-blue-500 transition duration-300 nav-active">Home</a>
+                    <a href="{% url 'about' %}" class="nav-link text-gray-600 hover:text-blue-500 transition duration-300">About</a>
+                    <a href="{% url 'faq' %}" class="nav-link text-gray-600 hover:text-blue-500 transition duration-300">FAQ</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-800 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <a href="{% url 'HomePage' %}" class="block py-2 text-gray-600 hover:text-blue-500">Home</a>
+                <a href="{% url 'about' %}" class="block py-2 text-gray-600 hover:text-blue-500">About</a>
+                <a href="{% url 'faq' %}" class="block py-2 text-gray-600 hover:text-blue-500">FAQ</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-20">
+        <section id="home">
+            <div class="container mx-auto px-6">
+                <div class="section-content">
+                    <div>
+                        <h1 class="display-text-solaced">Solaced</h1>
+                        <p class="lead mt-4 text-gray-500 text-xl">Welcome to our world of peace and tranquility.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="bg-white">
+            <div class="container mx-auto px-6">
+                <div class="section-content">
+                    <div class="max-w-2xl">
+                        <h2 class="text-4xl font-bold text-gray-800 mb-4">About Us</h2>
+                        <p class="text-gray-600 text-lg">
+                            Solaced was founded on the principle of providing a peaceful digital sanctuary. We believe in the power of calm and minimalist design to bring focus and tranquility to your day. Our mission is to create experiences that are not just functional, but also emotionally resonant and soothing.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq">
+            <div class="container mx-auto px-6">
+                <div class="section-content">
+                     <div class="max-w-2xl">
+                        <h2 class="text-4xl font-bold text-gray-800 mb-8">Frequently Asked Questions</h2>
+                        <div class="space-y-6 text-left">
+                            <div>
+                                <h3 class="font-semibold text-lg text-gray-800">What is Solaced?</h3>
+                                <p class="text-gray-600 mt-1">Solaced is a concept for a digital space designed to provide peace and tranquility through minimalist design and calming content.</p>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg text-gray-800">Is this a real company?</h3>
+                                <p class="text-gray-600 mt-1">This is a fictional concept website. It serves as a demonstration of a clean, single-page web design using modern tools like Tailwind CSS.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // --- Mobile Menu Logic ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // --- Active Nav Link on Scroll ---
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('#desktop-nav a.nav-link');
+
+        function changeNavOnScroll() {
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 85) { // 80px for navbar height + 5px buffer
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('nav-active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('nav-active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', changeNavOnScroll);
+        // Set initial active link on page load
+        changeNavOnScroll();
+    </script>
+
+</body>
+</html>
